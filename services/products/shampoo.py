@@ -1,11 +1,9 @@
-from .controlers.productcontroler import *
+from .controlers.productcontroller import *
 
-class ShampooMasculine(ProductControler):
+class MenShampoo(ProductController):
     def __init__(self) -> None:
-        super().__init__()
-        super().declare_variable('masculino', 'shampoo')
+        super().__init__('masculino', 'shampoo')
 
-class ShampooFeminine(ProductControler):
+class WomenShampoo(ProductController):
     def __init__(self) -> None:
-        super().__init__()
-        super().declare_variable('feminino', 'shampoo')
+        super().__init__('feminino', 'shampoo')

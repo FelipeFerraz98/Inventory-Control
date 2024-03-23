@@ -28,5 +28,23 @@
                 "quantidade": 10
             }
         }
+    },
+
+    "perfume":{
+        "masculino":{
+
+        },
+        "feminino":{
+            
+        },
+        "infantil":{
+
+        }
+    },
+
+    "batom":{
+        "unisex":{
+
+        }
     }
 }
