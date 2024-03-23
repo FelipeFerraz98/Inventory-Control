@@ -5,3 +5,6 @@ class InvalidProduct(Exception):
 
 class ExistingProduct(Exception):
     pass
+
+class InvalidPrice(Exception):
+    pass

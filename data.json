@@ -2,7 +2,8 @@
     "shampoo": {
         "masculino": {
             "liso": {
-                "quantidade": 0
+                "quantidade": 0,
+                "preco": 0.0
             },
             "cacheado": {
                 "quantidade": 1
@@ -11,7 +12,11 @@
                 "quantidade": 1
             },
             "grisalio": {
-                "quantidade": 56
+                "quantidade": 46
+            },
+            "bra": {
+                "quantidade": 2,
+                "preco": 1
             }
         },
         "feminino": {
@@ -29,22 +34,12 @@
             }
         }
     },
-
-    "perfume":{
-        "masculino":{
-
-        },
-        "feminino":{
-            
-        },
-        "infantil":{
-
-        }
+    "perfume": {
+        "masculino": {},
+        "feminino": {},
+        "infantil": {}
     },
-
-    "batom":{
-        "unisex":{
-
-        }
+    "batom": {
+        "unisex": {}
     }
 }

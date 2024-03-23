@@ -7,41 +7,52 @@ class ProductController(Data):
         self._gender = gender
         self._product = product    
 
-    def increase_quantity(self, type, quantity_increase) -> bool:
+    def edit_price(self, type : str, price: float) -> bool:
+        data = self.load_json()
+        try:
+            if price > 0:
+                data[self._product][self._gender][type]['preco'] = price
+                self.save_json(data)
+                return True
+            else:
+                raise InvalidPrice("O preço não pode ser 0 ou menor!")
+        except(InvalidProduct):
+            raise InvalidProduct("Produto não encontrado!")
+
+    def increase_quantity(self, type: str, quantity_increase: int) -> bool:
         data = self.load_json()
         try:
             data[self._product][self._gender][type]['quantidade'] += quantity_increase
             self.save_json(data)
             return True
-        except:
+        except(InvalidProduct):
             raise InvalidProduct("Produto não encontrado!")
 
-    def decrease_quantity(self, type, quantity_decrease) -> bool:
+    def decrease_quantity(self, type: str, quantity_decrease: int) -> bool:
         data = self.load_json()
         try:
             current_quantity = data[self._product][self._gender][type]['quantidade']
-            if quantity_decrease <= current_quantity:
-                if quantity_decrease >= current_quantity:
-                    data[self._product][self._gender][type]['quantidade'] = 0
-                    self.save_json(data)
-                    return True
-                else:
-                    data[self._product][self._gender][type]['quantidade'] -= quantity_decrease
-                    self.save_json(data)
-                    return True
-        except:
+            if quantity_decrease >= current_quantity:
+                data[self._product][self._gender][type]['quantidade'] = 0
+                self.save_json(data)
+                return True
+            else:
+                data[self._product][self._gender][type]['quantidade'] -= quantity_decrease
+                self.save_json(data)
+                return True
+        except(InvalidProduct):
             raise InvalidProduct("Produto não encontrado!")
 
-    def add_type_product(self, type, quantity) -> bool:
+    def add_product(self, type: str, quantity: int, price: float) -> bool:
         data = self.load_json()
         try:
             if type not in data[self._product][self._gender]:
-                data[self._product][self._gender][type] = {'quantidade': quantity}
+                data[self._product][self._gender][type] = {'quantidade': quantity, 'preco': price}
                 self.save_json(data)
             else:
                 raise ExistingProduct ("Já existe este produto, tente adicionar quantidade ao estoque!")
-        except:
-            raise InvalidProduct("Produto não encontrado!")
+        except(InvalidProduct):
+            raise InvalidProduct("Produto inválido!")
 
     def check_zero_quantity(self) -> bool:
         data = self.load_json()
