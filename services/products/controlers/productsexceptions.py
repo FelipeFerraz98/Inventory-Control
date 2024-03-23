@@ -1,4 +1,4 @@
-'''Criação de erros personalizados'''
+'''Criação de erros personalizados para produtos'''
 
 class InvalidProduct(Exception):
     pass
