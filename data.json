@@ -1,0 +1,32 @@
+{
+    "shampoo": {
+        "masculino": {
+            "liso": {
+                "quantidade": 0
+            },
+            "cacheado": {
+                "quantidade": 1
+            },
+            "branco": {
+                "quantidade": 1
+            },
+            "grisalio": {
+                "quantidade": 56
+            }
+        },
+        "feminino": {
+            "liso": {
+                "quantidade": 0
+            },
+            "cacheado": {
+                "quantidade": 1
+            },
+            "branco": {
+                "quantidade": 1
+            },
+            "grisalio": {
+                "quantidade": 10
+            }
+        }
+    }
+}

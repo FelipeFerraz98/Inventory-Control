@@ -1,0 +1,2 @@
+class InvalidProduct(Exception):
+    pass
