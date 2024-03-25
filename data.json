@@ -2,7 +2,7 @@
     "shampoo": {
         "masculino": {
             "liso": {
-                "quantidade": 60,
+                "quantidade": 0,
                 "preco": 0.0
             },
             "cacheado": {
@@ -13,10 +13,6 @@
             },
             "grisalio": {
                 "quantidade": 46
-            },
-            "bra": {
-                "quantidade": 2,
-                "preco": 1
             }
         },
         "feminino": {
