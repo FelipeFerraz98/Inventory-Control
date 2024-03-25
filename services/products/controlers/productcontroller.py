@@ -64,3 +64,17 @@ class ProductController(Data):
             return zero_products
         except:
             raise InvalidProduct("Produto não encontrado!")
+        
+    def all_products(self) -> list:
+        data = self.load_json()
+        products = []
+        for product_type in data[self._product][self._gender]:
+            products.append(product_type)
+        return products
+    
+    def all_products_details(self) -> list:
+        data = self.load_json()
+        products = []
+        for product_type in data[self._product][self._gender].items():
+            products.append(product_type)
+        return products

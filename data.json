@@ -2,7 +2,7 @@
     "shampoo": {
         "masculino": {
             "liso": {
-                "quantidade": 0,
+                "quantidade": 60,
                 "preco": 0.0
             },
             "cacheado": {
