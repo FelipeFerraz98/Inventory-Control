@@ -111,7 +111,7 @@ class Screen():
             except:
                 raise ValueError("Valor inválido, digite um valor válido!")
 
-    def _decrease_stock(self, genere):
+    def _decrease_stock(self, genere) -> None:
         action = self._save_product(genere)
         products, choice = self._print_products(genere)
         products_details = self._print_products_details(genere)
@@ -129,7 +129,7 @@ class Screen():
             except:
                 raise ValueError("Valor inválido, digite um valor válido!")
     
-    def _create_product(self, genere: str):
+    def _create_product(self, genere: str) -> None:
         action = self._save_product(genere)
         while True:
             try:
@@ -145,7 +145,7 @@ class Screen():
             except:
                 raise ValueError("Valor inválido, digite um valor válido!")
 
-    def _change_product_price(self, genere: str):
+    def _change_product_price(self, genere: str) -> None:
         action = self._save_product(genere)
         action.edit_price()
         products, choice = self._print_products(genere)
@@ -164,7 +164,7 @@ class Screen():
             except:
                 raise ValueError("Valor inválido, digite um valor válido!")
 
-    def _handle_crud(self, genere: str):
+    def _handle_crud(self, genere: str) -> None:
         if self._initial_choice == 1: 
             self._increase_product(genere)
         elif self._initial_choice == 2: 
@@ -174,16 +174,16 @@ class Screen():
         elif self._initial_choice == 4: 
             self._decrease_stock(genere)
     
-    def _handle_unisex(self):
+    def _handle_unisex(self) -> None:
         self._handle_crud('unisex')
 
-    def _handle_male(self):
+    def _handle_male(self) -> None:
         self._handle_crud('masculino')  
 
-    def _handle_female(self):
+    def _handle_female(self) -> None:
         self._handle_crud('feminino')  
 
-    def _handle_child(self):
+    def _handle_child(self) -> None:
         self._handle_crud('infantil')  
 
 
@@ -205,7 +205,7 @@ class Screen():
                     raise InvalidChoice("Opção inválida! Tente novamente!")
                 
                 self._product_menu()
-                
+
                 return
             except(InvalidChoice, ValueError):
                 raise InvalidChoice("Opção inválida! Tente novamente!")
