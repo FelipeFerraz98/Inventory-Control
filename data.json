@@ -1,41 +1,64 @@
 {
     "shampoo": {
         "masculino": {
-            "liso": {
+            "Malbec Shampoo": {
                 "quantidade": 0,
                 "preco": 0.0
             },
-            "cacheado": {
-                "quantidade": 1
-            },
-            "branco": {
-                "quantidade": 1
-            },
-            "grisalio": {
-                "quantidade": 46
+            "Men shampoo": {
+                "quantidade": 1,
+                "preco": 0.0
             }
         },
         "feminino": {
-            "liso": {
-                "quantidade": 0
+            "Nativa SPA - Ameixa": {
+                "quantidade": 0,
+                "preco": 0.0
             },
-            "cacheado": {
-                "quantidade": 1
+            "Nativa SPA - Quinoa": {
+                "quantidade": 1,
+                "preco": 0.0
             },
-            "branco": {
-                "quantidade": 1
-            },
-            "grisalio": {
-                "quantidade": 10
+            "Nativa SPA - Morango Ruby": {
+                "quantidade": 1,
+                "preco": 0.0
             }
         }
     },
     "perfume": {
-        "masculino": {},
-        "feminino": {},
-        "infantil": {}
+        "masculino": {
+            "Malbec": {
+                "quantidade": 1,
+                "preco": 0.0
+            },
+            "Quasar":{
+                "quantidade": 0,
+                "preco": 0.0
+            }
+        },
+        "feminino": {
+            "Lily":{
+                "quantidade": 1,
+                "preco": 0.0
+            },
+            "Coffe Woman":{
+                "quantidade": 0,
+                "preco": 0.0
+            }
+        },
+        "infantil": {
+            "Sophie":{
+                "quantidade": 0,
+                "preco": 0.0
+            }
+        }
     },
     "batom": {
-        "unisex": {}
+        "unisex": {
+            "Make B":{
+                "quantidade": 1,
+                "preco": 0.0
+            }
+        }
     }
 }

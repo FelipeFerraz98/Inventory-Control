@@ -1,5 +1,6 @@
 from services.products import shampoo, lipstick, perfume
 from screenexceptions import *
+import time
 
 class Screen():
     def __init__(self) -> None:
@@ -191,9 +192,48 @@ class Screen():
         action = self._choice_actions.get(genere) # reduzindo uso de if's usando dicionário
         action() # executando o método salvo em self._choice_actions
 
+    def _check_zero_products(self) -> list:
+        generes = ['unisex', 'masculino', 'feminino', 'infantil']
+        validates = []
+        shampoo_zero = self._shampoo(generes[1]).check_zero_quantity()
+        if (shampoo_zero):
+            validates.append(f'Shampoo {generes[1]} em falta:')
+            validates.append(shampoo_zero)
+
+        shampoo_zero = self._shampoo(generes[2]).check_zero_quantity()
+        if (shampoo_zero):
+            validates.append(f'Shampoo {generes[2]} em falta:')
+            validates.append(shampoo_zero)
+
+        lipstick_zero = self._lipstick(generes[0]).check_zero_quantity()
+        if(lipstick_zero):
+            validates.append('Batom em falta:')
+            validates.append(lipstick_zero)
+
+        perfume_zero = self._perfume(generes[1]).check_zero_quantity()
+        if(perfume_zero):        
+            validates.append(f'Perfume {generes[1]} em falta:')
+            validates.append(perfume_zero)
+
+        perfume_zero = self._perfume(generes[2]).check_zero_quantity()
+        if(perfume_zero): 
+            validates.append(f'Perfume {generes[2]} em falta:')
+            validates.append(perfume_zero)
+
+        perfume_zero = self._perfume(generes[3]).check_zero_quantity()
+        if(perfume_zero): 
+            validates.append(f'Perfume {generes[3]} em falta:')
+            validates.append(perfume_zero)
+        if(validates):
+            for zero_products in validates:
+                print(zero_products)
+                time.sleep(1)
+    
     def initial_menu(self) -> None:
         while True:
+            self._check_zero()
             try:
+                
                 print("""Selecione uma das opções
                     1 - adicionar produto já existente ao estoque
                     2 - adicionar um novo produto ao estoque
