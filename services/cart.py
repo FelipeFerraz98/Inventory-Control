@@ -27,7 +27,6 @@ class Cart:
         """
         self.items.append({
             'product': product,
-            'genere': genere,
             'quantity': quantity,
             'price': price
         })
@@ -45,7 +44,7 @@ class Cart:
         
         print("Produtos no carrinho:")
         for item in self.items:
-            print(f"{item['product']} - {item['genere']} - Quantidade: {item['quantity']} - Preço: {item['price']} - Total: {item['quantity'] * item['price']}")
+            print(f"{item['product']} - Quantidade: {item['quantity']} - Preço: {item['price']} - Total: {item['quantity'] * item['price']}")
     
     def get_total(self):
         """

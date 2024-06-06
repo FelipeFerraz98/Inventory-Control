@@ -105,7 +105,7 @@ class Screen():
         Lança:
         - InvalidChoice se a escolha for inválida.
         """
-        action = self._shampoo(genere)
+        action = self._save_product(genere)
         list_products = action.all_products()
         index = 0
         print("Escolha um produto:")
@@ -132,7 +132,7 @@ class Screen():
         - Uma lista com detalhes dos produtos.
         """
 
-        action = self._shampoo(genere)
+        action = self._save_product(genere)
         list_products = action.all_products_details()
         return list_products
 
@@ -162,6 +162,31 @@ class Screen():
             except:
                 raise ValueError("Valor inválido, digite um valor válido!")
 
+    def _cart(self, genere) -> None:
+        """
+        Diminui a quantidade de um produto.
+        
+        Parâmetros:
+        - genere: O gênero do produto.
+        """
+
+        action = self._save_product(genere)
+        products, choice = self._print_products(genere)
+        products_details = self._print_products_details(genere)
+        print(f"Detalhes do produto {products[choice]}")
+        print(products_details[choice])
+        while True:
+            try:
+                decrease_quantity = int(input("Digite a quantidade que deseja retirar: "))
+                validate = action.decrease_quantity(products[choice], decrease_quantity)
+                if validate:
+                    print("Quantidade retirada!")
+                    products_details = self._print_products_details(genere)
+                    print(f"Novo total: {products_details[choice]}")
+                    return
+            except:
+                raise ValueError("Valor inválido, digite um valor válido!")
+            
     # Método para diminuir a quantidade de um produto no estoque (venda)
     def _decrease_stock(self, genere) -> None:
         """
@@ -179,7 +204,7 @@ class Screen():
         while True:
             try:
                 decrease_quantity = int(input("Digite a quantidade que deseja retirar: "))
-                validate = action.increase_quantity(products[choice], decrease_quantity)
+                validate = action.decrease_quantity(products[choice], decrease_quantity)
                 if validate:
                     print("Quantidade retirada!")
                     products_details = self._print_products_details(genere)
@@ -254,6 +279,7 @@ class Screen():
         elif self._initial_choice == 3: 
             self._change_product_price(genere)
         elif self._initial_choice == 4: 
+            self._cart()
             self._decrease_stock(genere)
 
     # Métodos para lidar com cada tipo de produto com base no gênero
@@ -337,13 +363,27 @@ class Screen():
             validates.append(perfume_zero)
 
         return validates
+    
+    def _handle_cart(self) -> None:
+        while True:
+            self._product_menu()
+
+            try:
+                continue_shopping = input("Deseja adicionar mais produtos ao carrinho? (s/n): ")
+                if continue_shopping.lower() != 's':
+                    break
+            except:
+                pass
+                
+        pass
+
 
     # Método inicial para exibir o menu principal e capturar a escolha do usuário
     def initial_menu(self) -> None:
         """
         Exibe o menu inicial e gerencia a escolha do usuário.
         """
-        
+
         while True:
             validates = self._check_zero_products()
             if validates:
@@ -360,8 +400,12 @@ class Screen():
                 self._initial_choice = int(input("Digite aqui sua opção: "))
                 if self._initial_choice not in [1, 2, 3, 4]:
                     raise InvalidChoice("Opção inválida! Tente novamente!")
-
-                self._product_menu()
+                
+                if self._initial_choice == 4:
+                    self._handle_cart()
+                
+                else:
+                    self._product_menu()
 
                 return
             except (InvalidChoice, ValueError):

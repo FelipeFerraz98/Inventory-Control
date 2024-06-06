@@ -2,7 +2,7 @@
     "shampoo": {
         "masculino": {
             "Malbec Shampoo": {
-                "quantidade": 0,
+                "quantidade": 2,
                 "preco": 0.0
             },
             "Men shampoo": {
@@ -31,23 +31,23 @@
                 "quantidade": 1,
                 "preco": 0.0
             },
-            "Quasar":{
-                "quantidade": 0,
+            "Quasar": {
+                "quantidade": 1,
                 "preco": 0.0
             }
         },
         "feminino": {
-            "Lily":{
+            "Lily": {
                 "quantidade": 1,
                 "preco": 0.0
             },
-            "Coffe Woman":{
+            "Coffe Woman": {
                 "quantidade": 0,
                 "preco": 0.0
             }
         },
         "infantil": {
-            "Sophie":{
+            "Sophie": {
                 "quantidade": 0,
                 "preco": 0.0
             }
@@ -55,7 +55,7 @@
     },
     "batom": {
         "unisex": {
-            "Make B":{
+            "Make B": {
                 "quantidade": 1,
                 "preco": 0.0
             }
