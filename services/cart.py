@@ -1,4 +1,6 @@
-class Cart:
+from services.products import shampoo, lipstick, perfume
+
+class Cart():
     """
     Classe Cart para gerenciar o carrinho de compras.
     
@@ -12,10 +14,10 @@ class Cart:
     - checkout(self): Processa a finalização da compra, atualizando o estoque.
     """
     
-    def __init__(self):
-        self.items = []
+    def __init__(self) -> None:
+        self._items = []
     
-    def add_item(self, product, genere, quantity, price):
+    def add_item(self, product : str, quantity : int, price : float ) -> None:
         """
         Adiciona um item ao carrinho.
         
@@ -25,58 +27,39 @@ class Cart:
         - quantity (int): A quantidade do produto.
         - price (float): O preço do produto.
         """
-        self.items.append({
+        self._items.append({
             'product': product,
             'quantity': quantity,
             'price': price
         })
     
-    def display_cart(self):
+    def get_list(self) -> list:
+        """
+        Retorna a lista de items do carrinho
+        """
+        return self._items
+
+    def display_cart(self) -> None:
         """
         Exibe o conteúdo do carrinho.
         
         Retorna:
         - None
         """
-        if not self.items:
+        if not self._items:
             print("O carrinho está vazio.")
             return
         
         print("Produtos no carrinho:")
-        for item in self.items:
+        for item in self._items:
             print(f"{item['product']} - Quantidade: {item['quantity']} - Preço: {item['price']} - Total: {item['quantity'] * item['price']}")
     
-    def get_total(self):
+    def get_total(self) -> float:
         """
         Calcula o total do carrinho.
         
         Retorna:
         - float: O total do carrinho.
         """
-        total = sum(item['quantity'] * item['price'] for item in self.items)
+        total = sum(item['quantity'] * item['price'] for item in self._items)
         return total
-    
-    def checkout(self, screen_instance):
-        """
-        Processa a finalização da compra, atualizando o estoque.
-        
-        Parâmetros:
-        - screen_instance (Screen): Instância da classe Screen para acessar os métodos de atualização de estoque.
-        
-        Retorna:
-        - None
-        """
-        self.display_cart()
-        total = self.get_total()
-        print(f"Total a pagar: {total}")
-        
-        confirmation = input("Deseja confirmar a compra? (s/n): ")
-        if confirmation.lower() == 's':
-            for item in self.items:
-                screen_instance._save_product(item['genere']).decrease_quantity(item['product'], item['quantity'])
-            print("Compra confirmada! Estoque atualizado.")
-        else:
-            print("Compra cancelada.")
-        
-        # Limpa o carrinho após a compra ou cancelamento
-        self.items.clear()

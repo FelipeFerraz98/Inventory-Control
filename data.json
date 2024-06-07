@@ -2,8 +2,8 @@
     "shampoo": {
         "masculino": {
             "Malbec Shampoo": {
-                "quantidade": 2,
-                "preco": 0.0
+                "quantidade": 10,
+                "preco": 12.0
             },
             "Men shampoo": {
                 "quantidade": 1,
@@ -38,8 +38,8 @@
         },
         "feminino": {
             "Lily": {
-                "quantidade": 1,
-                "preco": 0.0
+                "quantidade": 7,
+                "preco": 2.0
             },
             "Coffe Woman": {
                 "quantidade": 0,

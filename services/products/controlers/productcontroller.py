@@ -11,6 +11,7 @@ class ProductController(Data):
 
     Métodos:
     - __init__(self, gender, product): Inicializa o controlador com o gênero e o produto específicos.
+    - show_price(self, type: str) -> float: Retorna o preço do produto
     - edit_price(self, type: str, price: float) -> bool: Edita o preço de um tipo de produto.
     - increase_quantity(self, type: str, quantity_increase: int) -> bool: Aumenta a quantidade de um tipo de produto.
     - decrease_quantity(self, type: str, quantity_decrease: int) -> bool: Diminui a quantidade de um tipo de produto.
@@ -31,6 +32,26 @@ class ProductController(Data):
         super().__init__()
         self._gender = gender  # Gênero do produto
         self._product = product  # Tipo de produto
+
+    def show_price(self, type: str) -> float:
+        """
+        Retorna o preço de um produto.
+        
+        Parâmetros:
+        - type: O tipo específico de produto (ex. "Shampoo Anti-Caspa").
+        
+        Retorna:
+        - O preço do produto buscado
+        
+        Lança:
+        - InvalidProduct se o produto não for encontrado.
+        """
+
+        data = self.load_json()  # Carrega os dados do arquivo JSON
+        try:
+            return data[self._product][self._gender][type]['preco'] # Retorna o preço do produto
+        except InvalidProduct:
+            raise InvalidProduct("Produto não encontrado!")  # Lança exceção se o produto não for encontrado
 
     def edit_price(self, type: str, price: float) -> bool:
         """

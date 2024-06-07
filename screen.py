@@ -1,26 +1,71 @@
+from services import cart
 from services.products import shampoo, lipstick, perfume
 from screenexceptions import *
 import time
 
 class Screen():
+    """
+    Classe Screen para gerenciar interações com o usuário relacionadas a produtos.
+
+    Esta classe lida com a exibição de menus e a coleta de entrada do usuário para 
+    diferentes operações em produtos, como aumentar ou diminuir estoque, adicionar 
+    novos produtos, alterar preços e verificar produtos com estoque zero.
+
+    Métodos:
+    - __init__(self): Inicializa a classe Screen.
+    - initial_menu(self): Exibe o menu inicial e gerencia a escolha do usuário.
+    - _product_menu(self): Exibe o menu de seleção de produtos.
+    - _genere_menu(self, product: int): Exibe o menu de seleção de gênero do produto.
+    - _print_products(self, genere: str) -> list: Exibe a lista de produtos de um gênero específico.
+    - _print_products_details(self, genere: str) -> list: Exibe detalhes de todos os produtos de um gênero específico.
+    - _increase_product(self, genere: str): Aumenta a quantidade de um produto.
+    - _decrease_stock(self, genere): Diminui a quantidade de um produto.
+    - _create_product(self, genere: str): Adiciona um novo produto.
+    - _change_product_price(self, genere: str): Altera o preço de um produto.
+    - _handle_crud(self, genere: str): Gerencia operações de CRUD com base na escolha inicial do usuário.
+    - _handle_unisex(self): Lida com operações em produtos unissex.
+    - _handle_male(self): Lida com operações em produtos masculinos.
+    - _handle_female(self): Lida com operações em produtos femininos.
+    - _handle_child(self): Lida com operações em produtos infantis.
+    - _handle_choice(self, genere: int): Chama a função apropriada com base na escolha do usuário.
+    - _check_zero_products(self) -> list: Verifica quais produtos estão com quantidade zero.
+    - _handle_cart(self): Gerencia o processo de adição de produtos ao carrinho.
+    - _add_products_cart(self, genere: str): Adiciona um produto ao carrinho.
+    """
+
     def __init__(self) -> None:
+        """
+        Inicializa a classe Screen, definindo produtos, variáveis de escolha, e o carrinho.
+
+        Este construtor configura as classes de produtos, inicializa as variáveis de 
+        escolha do usuário, configura o mapeamento de ações baseadas nas escolhas e 
+        inicializa o objeto do carrinho e a lista de itens do carrinho.
+        """
         # Inicializa as classes de produtos
         self._shampoo = shampoo.Shampoo
         self._perfume = perfume.Perfume
         self._lipstick = lipstick.Lipstick
 
-        # Inicializa variáveis de escolha
-        self._initial_choice : int
-        self._product_choice : int
-        self._genere_choice : int
+        # Inicializa variáveis de escolha do usuário
+        self._initial_choice: int
+        self._product_choice: int
+        self._genere_choice: int
+        self._save_product: object
 
-        # Dicionário que mapeia escolhas para os métodos correspondentes
+        # Mapeia escolhas do usuário para os métodos correspondentes
         self._choice_actions = {
             0: self._handle_unisex,
             1: self._handle_male,
             2: self._handle_female,
             3: self._handle_child
         }
+
+        # Inicializa o carrinho de compras
+        self._cart = cart.Cart()
+
+         # Lista para armazenar itens do carrinho (produto e gênero) para identificação de filtros pre definidos e localizar o produto
+        self._list_cart = []  # Exemplo: [{'product': <produto>, 'genere': <gênero>}]
+
 
     # Método para exibir o menu de produtos e capturar a escolha do usuário
     def _product_menu(self) -> None:
@@ -162,33 +207,42 @@ class Screen():
             except:
                 raise ValueError("Valor inválido, digite um valor válido!")
 
-    def _cart(self, genere) -> None:
+    def _add_products_cart(self, genere: str) -> None:
         """
-        Diminui a quantidade de um produto.
-        
-        Parâmetros:
-        - genere: O gênero do produto.
-        """
+        Adiciona um produto ao carrinho de compras com a quantidade especificada.
 
-        action = self._save_product(genere)
-        products, choice = self._print_products(genere)
-        products_details = self._print_products_details(genere)
-        print(f"Detalhes do produto {products[choice]}")
+        Este método permite ao usuário selecionar um produto de um gênero específico,
+        visualizar seus detalhes e adicionar uma quantidade desejada ao carrinho. 
+        Ele também armazena informações necessárias para atualizar o estoque 
+        após a confirmação da compra.
+
+        Parâmetros:
+        - genere: O gênero do produto a ser adicionado ao carrinho.
+
+        Lança:
+        - ValueError: Se a quantidade fornecida não for válida.
+        """
+        action = self._save_product(genere)  # Instancia o objeto do produto com base no gênero
+        products, choice = self._print_products(genere)  # Exibe os produtos e obtém a escolha do usuário
+        products_details = self._print_products_details(genere)  # Obtém os detalhes dos produtos
+        print(f"Detalhes do produto {products[choice]}")  # Mostra os detalhes do produto escolhido
         print(products_details[choice])
+
         while True:
             try:
-                decrease_quantity = int(input("Digite a quantidade que deseja retirar: "))
-                validate = action.decrease_quantity(products[choice], decrease_quantity)
-                if validate:
-                    print("Quantidade retirada!")
-                    products_details = self._print_products_details(genere)
-                    print(f"Novo total: {products_details[choice]}")
-                    return
-            except:
-                raise ValueError("Valor inválido, digite um valor válido!")
+                cart = self._cart  # Obtém o objeto carrinho
+                quantity = int(input("Digite a quantidade que deseja do produto: "))  # Solicita a quantidade desejada
+                price = action.show_price(products[choice])  # Obtém o preço do produto
+                cart.add_item(products[choice], quantity, price)  # Adiciona o item ao carrinho
+                self._list_cart.append({'product': self._save_product,
+                                        'genere': genere})  # Armazena informações para atualização do estoque após a compra
+                return  # Sai do loop após adicionar o item ao carrinho
+            except ValueError:
+                print("Valor inválido, digite um valor válido!")  # Exibe mensagem de erro se a entrada for inválida
+
             
     # Método para diminuir a quantidade de um produto no estoque (venda)
-    def _decrease_stock(self, genere) -> None:
+    def _decrease_stock(self, genere: str) -> None:
         """
         Diminui a quantidade de um produto.
         
@@ -211,8 +265,8 @@ class Screen():
                     print(f"Novo total: {products_details[choice]}")
                     return
             except:
-                raise ValueError("Valor inválido, digite um valor válido!")
-
+                    raise ValueError("Valor inválido, digite um valor válido!")
+                
     # Método para criar um novo produto
     def _create_product(self, genere: str) -> None:
         """
@@ -247,14 +301,13 @@ class Screen():
         """
 
         action = self._save_product(genere)
-        action.edit_price()
         products, choice = self._print_products(genere)
         products_details = self._print_products_details(genere)
         print(f"Detalhes do produto {products[choice]}")
         print(products_details[choice])
         while True:
             try:
-                price = int(input("Digite o novo preço do produto: "))
+                price = float(input("Digite o novo preço do produto: "))
                 validate = action.edit_price(products[choice], price)
                 if validate:
                     print("Preço alterado!")
@@ -279,8 +332,9 @@ class Screen():
         elif self._initial_choice == 3: 
             self._change_product_price(genere)
         elif self._initial_choice == 4: 
-            self._cart()
             self._decrease_stock(genere)
+        elif self._initial_choice == 5: 
+            self._add_products_cart(genere)
 
     # Métodos para lidar com cada tipo de produto com base no gênero
     def _handle_unisex(self) -> None:
@@ -365,17 +419,53 @@ class Screen():
         return validates
     
     def _handle_cart(self) -> None:
-        while True:
-            self._product_menu()
+        """
+        Gerencia a funcionalidade do carrinho de compras.
 
+        Este método permite que o usuário adicione produtos ao carrinho repetidamente
+        até que ele decida parar. Em seguida, ele solicita a confirmação do usuário para
+        finalizar a compra e, caso confirmado, atualiza os estoques dos produtos.
+
+        O método utiliza um loop para permitir ao usuário adicionar múltiplos produtos ao
+        carrinho e outro loop para confirmar a compra e atualizar o estoque.
+
+        No caso de finalizar a compra:
+        - Mostra o total da compra.
+        - Pede confirmação do usuário.
+        - Atualiza a quantidade dos produtos no estoque.
+
+        Lança:
+        - Qualquer exceção ocorrida durante a adição ao carrinho ou atualização do estoque.
+        """
+        while True:
             try:
+                action = self._cart  # Obtém o objeto carrinho
+                print("Você está no carrinho!")
+                self._product_menu()  # Executa a progressão de menus para selecionar o produto
+                action.display_cart()  # Exibe os itens atualmente no carrinho
+                total = action.get_total()  # Calcula o total da compra
+                print(f"Total da compra: {total}")
                 continue_shopping = input("Deseja adicionar mais produtos ao carrinho? (s/n): ")
                 if continue_shopping.lower() != 's':
                     break
-            except:
-                pass
-                
-        pass
+            except Exception as e:
+                print(f"Ocorreu um erro: {e}")  # Imprime a exceção, se houver
+
+        while True:
+            payment = input("Deseja finalizar a compra? (s/n): ")
+            if payment.lower() != 's':
+                return  # Se o usuário não quiser finalizar a compra, retorna ao menu inicial
+            index = 0  # Variável de controle para iterar sobre os itens do carrinho
+            cart_item_list = self._cart.get_list()  # Obtém a lista de produtos do carrinho
+            for items in self._list_cart:  # Itera sobre os itens armazenados em list_cart
+                action = items['product']  # Obtém o objeto produto (self._save_product)
+                genere = items['genere']  # Obtém o gênero do produto
+                product_type = cart_item_list[index]['product']  # Nome do produto no carrinho
+                decrease_quantity = cart_item_list[index]['quantity']  # Quantidade do produto no carrinho
+                action(genere).decrease_quantity(product_type, decrease_quantity)  # Atualiza a quantidade do produto no estoque
+                index += 1  # Incrementa o índice para o próximo item do carrinho
+            
+            return  # Retorna ao menu inicial após finalizar a compra
 
 
     # Método inicial para exibir o menu principal e capturar a escolha do usuário
@@ -395,13 +485,14 @@ class Screen():
                     1 - adicionar produto já existente ao estoque
                     2 - adicionar um novo produto ao estoque
                     3 - alterar preço de um produto ao estoque
-                    4 - vender um produto
+                    4 - retirar um item do estoque
+                    5 - vender um produto
                     """)
                 self._initial_choice = int(input("Digite aqui sua opção: "))
-                if self._initial_choice not in [1, 2, 3, 4]:
+                if self._initial_choice not in [1, 2, 3, 4, 5]:
                     raise InvalidChoice("Opção inválida! Tente novamente!")
                 
-                if self._initial_choice == 4:
+                if self._initial_choice == 5:
                     self._handle_cart()
                 
                 else:
