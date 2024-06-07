@@ -126,8 +126,8 @@ class Screen():
                         raise InvalidChoice("Opção inválida! Tente novamente!")
 
                 elif product == 3:
-                    self._handle_choice(0)  # Batom é unissex
                     self._save_product = self._lipstick
+                    genere_choice = 0  # Batom é unissex
 
                 # Processa a escolha do gênero
                 self._handle_choice(genere_choice)
