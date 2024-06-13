@@ -1,11 +1,11 @@
 from .controller import *
 from .productsexceptions import *
 
-class ProductController(Data):
+class ProductController(Controller):
     """
     Classe ProductController para gerenciar operações relacionadas a produtos.
     
-    Esta classe herda de Data e lida com produtos de diferentes gêneros,
+    Esta classe herda de Controller e lida com produtos de diferentes gêneros,
     permitindo editar preços, aumentar e diminuir quantidades, adicionar novos produtos,
     verificar produtos com quantidade zero e listar todos os produtos e seus detalhes.
 
