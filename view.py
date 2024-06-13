@@ -2,39 +2,64 @@ from time import sleep
 import os
 
 class View:
-    # Função que retorna uma linha de caracteres '-' com tamanho padrão de 45.
-    def linha(self, tam=45):
-        return '-' * tam
+    """
+    Classe View para exibição de menus e cabeçalhos.
 
-    # Função para exibir um cabeçalho centrado com uma linha acima e abaixo.
-    def cabecalho(self, txt):
-        print(self.linha())  # Exibe uma linha antes do cabeçalho.
-        print(txt.center(45))  # Centraliza o texto no cabeçalho com um tamanho de 45.
-        print(self.linha())  # Exibe uma linha depois do cabeçalho.
+    Métodos:
+    --------
+    draw_line(length: int = 45) -> str:
+        Retorna uma linha de caracteres '-' com o tamanho especificado.
+        
+    display_header(text: str) -> None:
+        Exibe um cabeçalho centrado com uma linha acima e abaixo.
+        
+    display_menu(options: list) -> str:
+        Exibe um menu com opções numeradas e solicita uma entrada do usuário.
+        
+    read_input(prompt: str) -> int:
+        Lê um valor inteiro do usuário, com tratamento de exceções.
+    """
 
-    # Função para exibir um menu com opções numeradas.
-    def menu(self, lista):
-        self.cabecalho('\033[34mMENU PRINCIPAL\033[m')  # Chama a função cabeçalho com um texto azul.
-        c = 1
-        for item in lista:
-            print(f'\033[33m{c} - \033[34m{item}\033[m')  # Exibe cada item da lista com formatação de cores.
-            c += 1
-        print(self.linha())  # Exibe uma linha depois do menu.
-        opc = self.leiaInt('\033[32mSua opção: \033[m')  # Pede ao usuário para digitar uma opção.
+    def draw_line(self) -> str:
+        """
+        Retorna uma linha de caracteres '-' com o tamanho especificado.
+        """
+        line = '-' * 45
+        return line
+
+    def display_header(self, text: str) -> None:
+        """
+        Exibe um cabeçalho centrado com uma linha acima e abaixo.
+        """
+        print(self.draw_line())  # Exibe uma linha antes do cabeçalho
+        print(text.center(45))  # Centraliza o texto do cabeçalho com um comprimento de 45
+        print(self.draw_line())  # Exibe uma linha depois do cabeçalho
+
+    def display_menu(self, options: list) -> str:
+        """
+        Exibe um menu com opções numeradas e solicita uma entrada do usuário.
+        """
+        self.display_header('\033[34mMENU PRINCIPAL\033[m')  # Exibe o cabeçalho com texto azul
+        for index, option in enumerate(options, start=1):
+            print(f'\033[33m{index} - \033[34m{option}\033[m')  # Exibe cada item da lista com formatação de cores
+        print(self.draw_line())  # Exibe uma linha depois do menu
+        user_choice = self.read_input('\033[32mSua opção: \033[m')  # Solicita ao usuário para escolher uma opção
         sleep(1)
-        os.system("cls")
-        return opc
+        os.system("cls")  # Limpa a tela
+        return user_choice
 
-    # Função para ler um valor inteiro do usuário, com tratamento de exceções.
-    def leiaInt(msg):
+    def read_input(prompt: str) -> int:
+        """
+        Lê um valor inteiro do usuário, com tratamento de exceções.
+        """
         while True:
             try:
-                n = int(input(msg))  # Tenta converter a entrada do usuário para um inteiro.
+                user_input = int(input(prompt))  # Tenta converter a entrada do usuário para um inteiro
             except (ValueError, TypeError):
-                print('\033[31mERRO! Por favor, digite uma opção válida.\033[m')  # Mensagem de erro se a conversão falhar.
+                print('\033[31mERRO! Por favor, digite uma opção válida.\033[m')  # Mensagem de erro para entrada inválida
                 continue
             except KeyboardInterrupt:
-                print('\033[31mERRO! O usuário não informou opções.\033[m')  # Mensagem de erro se o usuário interromper a execução.
+                print('\033[31mERRO! O usuário não informou opções.\033[m')  # Mensagem de erro para interrupção pelo usuário
                 break
             else:
-                return n  # Retorna o valor inteiro se a conversão for bem-sucedida.
+                return user_input  # Retorna o valor inteiro se a conversão for bem-sucedida

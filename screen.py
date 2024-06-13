@@ -79,12 +79,12 @@ class Screen():
 
         while True:
             try:
-                self._view.cabecalho('\033[34mPRODUTO\033[m')
+                self._view.display_header('\033[34mPRODUTO\033[m')
                 c = 1
                 for item in itens:
                     print(f'''\033[32m{c} - \033[34m{item}\033[m''')
                     c += 1
-                print(self._view.linha())
+                print(self._view.draw_line())
                 product_choice = int(input("\033[33mDigite sua opção: \033[m"))
                 os.system("cls")
 
@@ -113,13 +113,13 @@ class Screen():
             try:
                 if product == 1:
                     os.system("cls")
-                    self._view.cabecalho('\033[34mSELECIONE O GENÊRO\033[m')
+                    self._view.display_header('\033[34mSELECIONE O GENÊRO\033[m')
                     c = 1
                     for item in opcoes:
                         print(f'\033[32m{c} - \033[34m{item}\033[m')
                         c += 1
                     self._save_product = self._shampoo
-                    print(self._view.linha())
+                    print(self._view.draw_line())
                     genere_choice = int(input("\033[33mDigite sua opção: \033[m"))
                     os.system("cls")
                     if genere_choice not in [1,2,3]: # array com opções válidas
@@ -127,13 +127,13 @@ class Screen():
 
                 elif product == 2:
                     os.system("cls")
-                    self._view.cabecalho('\033[34mSELECIONE A OPÇÃO\033[m')
+                    self._view.display_header('\033[34mSELECIONE A OPÇÃO\033[m')
                     c = 1
                     for item in opcoes:
                         print(f'\033[32m{c} - \033[34m{item}\033[m')
                         c += 1
                     self._save_product = self._perfume
-                    print(self._view.linha())
+                    print(self._view.draw_line())
                     genere_choice = int(input("\033[33mDigite sua opção: \033[m"))
                     os.system("cls")
                     if genere_choice not in [1,2,3]: # array com opções válidas
@@ -167,12 +167,12 @@ class Screen():
         action = self._save_product(genere)
         list_products = action.all_products()
         index = 0
-        self._view.cabecalho("\033[34mEscolha um produto\033[m")
+        self._view.display_header("\033[34mEscolha um produto\033[m")
         for product in list_products:
             index += 1
             print(f'''\033[32m{index} - \033[34m{product}\033[m''')
         try:
-            print(self._view.linha())
+            print(self._view.draw_line())
             choice = int(input("\033[33mDigite aqui sua opção: \033[m"))
             if choice <= index and choice > 0:
                 return list_products, choice - 1  # retornando a lista e a escolha -1 (array comeca em 0)
@@ -209,17 +209,17 @@ class Screen():
         products, choice = self._print_products(genere)
         products_details = self._print_products_details(genere)
         os.system("cls")
-        self._view.cabecalho(f"\033[34mDetalhes do produto {products[choice]}\033[m")
+        self._view.display_header(f"\033[34mDetalhes do produto {products[choice]}\033[m")
         print(products_details[choice])
         while True:
             try:
-                print(self._view.linha())
+                print(self._view.draw_line())
                 add_quantity = int(input("\033[33mDigite a quantidade que deseja adicionar: \033[m"))
                 validate = action.increase_quantity(products[choice], add_quantity)
                 if validate:
                     print("\033[32mQuantidade adicionada!\033[m")
                     products_details = self._print_products_details(genere)
-                    self._view.cabecalho(f"\033[34mNovo total: {products_details[choice]}\033[m")
+                    self._view.display_header(f"\033[34mNovo total: {products_details[choice]}\033[m")
                     sleep(2)
                     os.system("cls")
                     return
@@ -245,13 +245,13 @@ class Screen():
         products, choice = self._print_products(genere)  # Exibe os produtos e obtém a escolha do usuário
         products_details = self._print_products_details(genere)  # Obtém os detalhes dos produtos
         os.system("cls")
-        self._view.cabecalho(f"\033[34mDetalhes do produto {products[choice]}\033[m")  # Mostra os detalhes do produto escolhido
+        self._view.display_header(f"\033[34mDetalhes do produto {products[choice]}\033[m")  # Mostra os detalhes do produto escolhido
         print(products_details[choice])
 
         while True:
             try:
                 cart = self._cart  # Obtém o objeto carrinho
-                print(self._view.linha())
+                print(self._view.draw_line())
                 quantity = int(input("\033[33mDigite a quantidade que deseja do produto: \033[m"))  # Solicita a quantidade desejada
                 price = action.show_price(products[choice])  # Obtém o preço do produto
                 cart.add_item(products[choice], quantity, price)  # Adiciona o item ao carrinho
@@ -275,11 +275,11 @@ class Screen():
         products, choice = self._print_products(genere)
         products_details = self._print_products_details(genere)
         os.system("cls")
-        self._view.cabecalho(f"\033[34mDetalhes do produto {products[choice]}\033[m")
+        self._view.display_header(f"\033[34mDetalhes do produto {products[choice]}\033[m")
         print(products_details[choice])
         while True:
             try:
-                print(self._view.linha())
+                print(self._view.draw_line())
                 decrease_quantity = int(input("\033[33mDigite a quantidade que deseja retirar: \033[m"))
                 validate = action.decrease_quantity(products[choice], decrease_quantity)
                 if validate:
@@ -329,7 +329,7 @@ class Screen():
         products, choice = self._print_products(genere)
         products_details = self._print_products_details(genere)
         os.system("cls")
-        self._view.cabecalho(f"\033[34mDetalhes do produto {products[choice]}\033[m")
+        self._view.display_header(f"\033[34mDetalhes do produto {products[choice]}\033[m")
         print(products_details[choice])
         while True:
             try:
@@ -338,7 +338,7 @@ class Screen():
                 if validate:
                     print("\033[32mPreço alterado!\033[m")
                     products_details = self._print_products_details(genere)
-                    self._view.cabecalho(f"\033[32mNovo preço: {products_details[choice]}\033[m")
+                    self._view.display_header(f"\033[32mNovo preço: {products_details[choice]}\033[m")
                     sleep(2)
                     os.system("cls")
                     return
@@ -469,7 +469,7 @@ class Screen():
             try:
                 os.system("cls")
                 action = self._cart  # Obtém o objeto carrinho
-                self._view.cabecalho('\033[34mCARRINHO DE COMPRAS\033[m')
+                self._view.display_header('\033[34mCARRINHO DE COMPRAS\033[m')
                 self._product_menu()  # Executa a progressão de menus para selecionar o produto
                 action.display_cart()  # Exibe os itens atualmente no carrinho
                 total = action.get_total()  # Calcula o total da compra
@@ -479,7 +479,7 @@ class Screen():
                     break
             except Exception as e:
                 print(f"\033[31mOcorreu um erro: {e}\033[m")  # Imprime a exceção, se houver
-                print(self._view.linha())
+                print(self._view.draw_line())
 
         while True:
             payment = input("\033[33mDeseja finalizar a compra? (s/n): \033[m")
@@ -517,12 +517,12 @@ class Screen():
             try:
                 sleep(1)
                 os.system("cls")
-                self._view.cabecalho('\033[34mMENU PRINCIPAL\033[m')
+                self._view.display_header('\033[34mMENU PRINCIPAL\033[m')
                 c = 1
                 for item in opcao:
                     print(f'''\033[32m{c} - \033[34m{item}\033[m''')
                     c += 1
-                print(self._view.linha())
+                print(self._view.draw_line())
                 self._initial_choice = int(input("\033[33mDigite aqui sua opção: \033[m"))
                 os.system("cls")
                 if self._initial_choice not in [1, 2, 3, 4, 5]:
