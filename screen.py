@@ -503,7 +503,7 @@ class Screen():
 
     # Método inicial para exibir o menu principal e capturar a escolha do usuário
     def initial_menu(self) -> None:
-        opcao = ('Adicionar produto já existente ao estoque', 'Adicionar um novo produto ao estoque', 'Alterar preço de um produto ao estoque', 'Retirar um item do estoque', 'Vender um produto')
+        opcao = ('Adicionar produto já existente ao estoque', 'Adicionar um novo produto ao estoque', 'Alterar preço de um produto', 'Retirar um item do estoque', 'Vender um produto')
         """
         Exibe o menu inicial e gerencia a escolha do usuário.
         """
