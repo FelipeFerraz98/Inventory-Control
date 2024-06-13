@@ -7,7 +7,7 @@ class View:
 
     Métodos:
     --------
-    draw_line(length: int = 45) -> str:
+    draw_line() -> str:
         Retorna uma linha de caracteres '-' com o tamanho especificado.
         
     display_header(text: str) -> None:
